@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 const generateSlug = (name: string) => {
   const randomString = crypto.randomUUID().slice(0, 8);
-  return `${name}-${randomString}`.toLowerCase();
+  return `${name.trim().replace(/\s+/g, "-")}-${randomString}`.toLowerCase();
 };
 
 export async function createOrUpdateProject(formData: FormData) {
