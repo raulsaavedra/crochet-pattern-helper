@@ -2,10 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-
-type ActionState = {
-  message: string | null;
-};
+import { ActionState } from "@/types/form";
 
 export async function login(
   prevState: ActionState,
@@ -24,9 +21,10 @@ export async function login(
 
   if (error) {
     return {
+      status: "error",
       message: error.message,
     };
   }
 
-  redirect("/projects");
+  redirect("/");
 }

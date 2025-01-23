@@ -1,11 +1,7 @@
 "use server";
 
-import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-
-type ActionState = {
-  message: string | null;
-};
+import { ActionState } from "@/types/form";
 
 export async function signup(
   prevState: ActionState,
@@ -24,9 +20,13 @@ export async function signup(
 
   if (error) {
     return {
+      status: "error",
       message: error.message,
     };
   }
 
-  redirect("/projects");
+  return {
+    status: "success",
+    message: "Account created successfully",
+  };
 }

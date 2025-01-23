@@ -12,7 +12,7 @@ export async function deleteProject(slug: string) {
     throw new Error(error.message);
   }
 
-  revalidatePath("/projects");
+  revalidatePath("/");
 
   return { success: true };
 }

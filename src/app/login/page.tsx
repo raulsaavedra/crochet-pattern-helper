@@ -4,14 +4,18 @@ import { FormField, Input } from "@/components/Form";
 import { login, signup } from "../actions/auth";
 import Button from "@/components/Button";
 import { useActionState } from "react";
-
-type ActionState = {
-  message: string | null;
-};
+import { ActionState } from "@/types/form";
 
 const initialState: ActionState = {
+  status: "idle",
   message: null,
 };
+
+const statusStyles = {
+  error: "text-red-500",
+  success: "text-green-500",
+  idle: "text-gray-500",
+} as const;
 
 export default function LoginPage() {
   const [loginActionState, loginAction] = useActionState(login, initialState);
@@ -19,6 +23,25 @@ export default function LoginPage() {
     signup,
     initialState
   );
+
+  const getCurrentStatus = () => {
+    if (loginActionState.status !== "idle") {
+      return loginActionState.status;
+    }
+    if (signupActionState.status !== "idle") {
+      return signupActionState.status;
+    }
+    return "idle";
+  };
+
+  const getCurrentMessage = () => {
+    if (loginActionState.message) {
+      return loginActionState.message;
+    }
+    if (signupActionState.message) {
+      return signupActionState.message;
+    }
+  };
 
   return (
     <form className="flex flex-col gap-8">
@@ -32,9 +55,13 @@ export default function LoginPage() {
           <Input id="password" name="password" type="password" required />
         </FormField>
       </div>
-      {(loginActionState?.message || signupActionState?.message) && (
-        <div className="text-red-500 text-sm font-semibold">
-          {loginActionState?.message || signupActionState?.message}
+      {getCurrentMessage() && (
+        <div
+          className={`text-sm font-semibold ${
+            statusStyles[getCurrentStatus()]
+          }`}
+        >
+          {getCurrentMessage()}
         </div>
       )}
       <div className="flex flex-col gap-4">

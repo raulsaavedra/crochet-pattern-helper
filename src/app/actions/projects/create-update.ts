@@ -49,7 +49,7 @@ export async function createOrUpdateProject(formData: FormData) {
     throw new Error(stitchesError.message);
   }
 
-  revalidatePath("/projects");
+  revalidatePath("/");
   revalidatePath(`/projects/view/${slug}`);
   redirect("/");
 }
