@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Button from "../Button";
 import { TProject } from "../ProjectDashboard/ProjectDashboard";
 import { Repeat, Shell, Volleyball } from "lucide-react";
-import { increaseCount } from "../ProjectSingle/actions";
+import { increaseCount } from "@/app/actions/projects";
 import { useDebouncedCallback } from "use-debounce";
 
 function StitchCounter({ project }: { project: TProject }) {

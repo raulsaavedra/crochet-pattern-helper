@@ -6,7 +6,7 @@ import { FormField, Input } from "../../Form";
 import { FileText, Volleyball } from "lucide-react";
 import { TProject } from "../ProjectDashboard";
 import { useRouter } from "next/navigation";
-import { createOrUpdateProject } from "../actions";
+import { createOrUpdateProject } from "@/app/actions/projects";
 
 interface ProjectFormProps {
   project?: TProject | null;

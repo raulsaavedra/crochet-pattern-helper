@@ -1,5 +1,5 @@
 import { FormField, Input } from "@/components/Form";
-import { login, signup } from "./actions";
+import { login, signup } from "../actions/auth";
 import Button from "@/components/Button";
 
 export default function LoginPage() {

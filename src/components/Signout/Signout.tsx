@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut } from "@/app/actions/signOut";
+import { signOut } from "@/app/actions/auth";
 import Button from "../Button";
 import { LogOut } from "lucide-react";
 

@@ -5,7 +5,7 @@ import Button from "../../Button";
 import ProjectCard from "../../ProjectCard/ProjectCard";
 import { TProject } from "../ProjectDashboard";
 import { useRouter } from "next/navigation";
-import { deleteProject } from "./actions";
+import { deleteProject } from "@/app/actions/projects";
 
 interface ProjectListProps {
   projects: TProject[];

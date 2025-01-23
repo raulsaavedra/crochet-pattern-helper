@@ -38,7 +38,7 @@ function ProjectCard({
 
   if (deleteStatus === "loading" || deleteStatus === "success") {
     return (
-      <div className="flex justify-center ">
+      <div className="flex justify-center">
         <Image
           src="/staring-cat.gif"
           alt="Staring cat"
