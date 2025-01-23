@@ -2,7 +2,9 @@ import ProjectSingle from "@/components/ProjectSingle/ProjectSingle";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-async function Project({ params }: { params: { slug: string } }) {
+type Params = Promise<{ slug: string }>;
+
+async function Project(params: Params) {
   const { slug } = await params;
   const supabase = await createClient();
 

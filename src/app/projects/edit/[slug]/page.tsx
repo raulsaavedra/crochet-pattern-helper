@@ -2,11 +2,9 @@ import { ProjectForm } from "@/components/ProjectDashboard/components/ProjectFor
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export default async function EditProject({
-  params,
-}: {
-  params: { slug: string };
-}) {
+type Params = Promise<{ slug: string }>;
+
+export default async function EditProject(params: Params) {
   const supabase = await createClient();
 
   const { data: authData, error: authError } = await supabase.auth.getUser();
