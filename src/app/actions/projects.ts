@@ -4,11 +4,16 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+const generateSlug = (name: string) => {
+  const randomString = crypto.randomUUID().slice(0, 8);
+  return `${name}-${randomString}`.toLowerCase();
+};
+
 export async function createOrUpdateProject(formData: FormData) {
   const supabase = await createClient();
 
   const name = formData.get("name") as string;
-  const slug = formData.get("slug") as string;
+  const slug = (formData.get("slug") as string) || generateSlug(name);
   const totalRows = formData.get("stitches-total-rows") as string;
   const totalRepeats = formData.get("stitches-total-repeats") as string;
   const currentRow = formData.get("stitches-current-row") as string;

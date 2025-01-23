@@ -25,7 +25,7 @@ function ProjectForm({ project }: ProjectFormProps) {
             Project Details
           </p>
         </div>
-        <FormField className={project ? "col-span-2" : ""}>
+        <FormField className="col-span-2">
           <label htmlFor="name">Name</label>
           <Input
             type="text"
@@ -36,19 +36,15 @@ function ProjectForm({ project }: ProjectFormProps) {
             defaultValue={project?.name}
           />
         </FormField>
-        <FormField className={project ? "hidden" : ""}>
-          <label htmlFor="slug">Slug</label>
-          <Input
-            type="text"
-            id="slug"
-            name="slug"
-            required
-            minLength={3}
-            placeholder="Slug for the URL, must be unique"
-            defaultValue={project?.slug}
-            hidden={!!project}
-          />
-        </FormField>
+        <Input
+          type="text"
+          id="slug"
+          name="slug"
+          minLength={3}
+          placeholder="Slug for the URL, must be unique"
+          defaultValue={project?.slug}
+          hidden
+        />
         <FormField full>
           <label htmlFor="description">Description</label>
           <Input
