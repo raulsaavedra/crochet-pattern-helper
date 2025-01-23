@@ -15,6 +15,7 @@ export default async function EditProject({
   }
 
   const { slug } = await params;
+
   const { data: project } = await supabase
     .from("projects")
     .select(

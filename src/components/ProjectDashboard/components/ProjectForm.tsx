@@ -6,7 +6,7 @@ import { FormField, Input } from "../../Form";
 import { FileText, Volleyball } from "lucide-react";
 import { TProject } from "../ProjectDashboard";
 import { useRouter } from "next/navigation";
-import { createOrUpdateProject } from "./actions";
+import { createOrUpdateProject } from "../actions";
 
 interface ProjectFormProps {
   project?: TProject | null;
@@ -25,7 +25,7 @@ function ProjectForm({ project }: ProjectFormProps) {
             Project Details
           </p>
         </div>
-        <FormField>
+        <FormField className={project ? "col-span-2" : ""}>
           <label htmlFor="name">Name</label>
           <Input
             type="text"
@@ -36,7 +36,7 @@ function ProjectForm({ project }: ProjectFormProps) {
             defaultValue={project?.name}
           />
         </FormField>
-        <FormField>
+        <FormField className={project ? "hidden" : ""}>
           <label htmlFor="slug">Slug</label>
           <Input
             type="text"
@@ -46,7 +46,7 @@ function ProjectForm({ project }: ProjectFormProps) {
             minLength={3}
             placeholder="Slug for the URL, must be unique"
             defaultValue={project?.slug}
-            disabled={!!project}
+            hidden={!!project}
           />
         </FormField>
         <FormField full>

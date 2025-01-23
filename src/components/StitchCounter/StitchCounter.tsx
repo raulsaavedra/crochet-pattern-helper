@@ -1,62 +1,65 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../Button";
 import { TProject } from "../ProjectDashboard/ProjectDashboard";
 import { Repeat, Shell, Volleyball } from "lucide-react";
+import { increaseCount } from "../ProjectSingle/actions";
+import { useDebouncedCallback } from "use-debounce";
 
 function StitchCounter({ project }: { project: TProject }) {
-  const [row, setRow] = useState(project.stitches.currentRow);
-  const [repeat, setRepeat] = useState(project.stitches.currentRepeat);
+  const initialRow = project.stitches.currentRow;
+  const initialRepeat = project.stitches.currentRepeat;
+
+  const [currentRow, setCurrentRow] = useState(initialRow);
+  const [currentRepeat, setCurrentRepeat] = useState(initialRepeat);
 
   const totalRows = project.stitches.totalRows;
   const totalRepeats = project.stitches.totalRepeats;
 
-  const handleRowChange = () => {
-    setRow(row + 1);
-    if (row === totalRows) {
-      setRow(0);
-      if (repeat === totalRepeats) {
+  const handleRowChange = async () => {
+    let nextRow: number;
+    let nextRepeat: number;
+
+    if (currentRow === totalRows) {
+      if (currentRepeat === totalRepeats) {
         return;
       }
-      setRepeat(repeat + 1);
+      nextRow = 0;
+      nextRepeat = currentRepeat + 1;
+    } else {
+      nextRow = currentRow + 1;
+      nextRepeat = currentRepeat;
     }
+
+    setCurrentRow(nextRow);
+    setCurrentRepeat(nextRepeat);
+    handleRowSave(nextRow, nextRepeat);
   };
 
-  useEffect(() => {
-    const projects = localStorage.getItem("projects");
-    if (projects) {
-      const parsedProjects = JSON.parse(projects);
-      const foundProject = parsedProjects.find(
-        (p: TProject) => p.slug === project.slug
-      );
-      if (foundProject) {
-        foundProject.stitches.currentRow = row;
-        foundProject.stitches.currentRepeat = repeat;
-        localStorage.setItem("projects", JSON.stringify(parsedProjects));
-      }
-    }
-  }, [row, repeat, project.slug]);
+  const handleRowSave = useDebouncedCallback(
+    async (row: number, repeat: number) => {
+      await increaseCount(project.slug, row, repeat);
+    },
+    1000
+  );
 
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <p className="flex items-center gap-4 text-2xl font-bold">
-          <Volleyball className="text-primary-light" size={24} /> Row: {row} /{" "}
-          {totalRows}
+          <Volleyball className="text-primary-light" size={24} /> Row:{" "}
+          {currentRow} / {totalRows}
         </p>
         <p className="flex items-center gap-4 text-2xl font-bold">
-          <Repeat className="text-primary-light" size={24} /> Repeat: {repeat} /{" "}
-          {totalRepeats}
+          <Repeat className="text-primary-light" size={24} /> Repeat:{" "}
+          {currentRepeat} / {totalRepeats}
         </p>
       </div>
-      {status === "finished" && (
-        <p className="text-2xl font-bold">🎉&nbsp;&nbsp;Finished!</p>
-      )}
       <div className="flex justify-start">
         <Button
           className="max-w-[200px] w-full mt-2"
-          disabled={repeat === totalRepeats && row === totalRows}
+          disabled={currentRepeat === totalRepeats && currentRow === totalRows}
           onClick={handleRowChange}
         >
           <Shell size={24} />

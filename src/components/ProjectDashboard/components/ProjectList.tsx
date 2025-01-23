@@ -5,6 +5,7 @@ import Button from "../../Button";
 import ProjectCard from "../../ProjectCard/ProjectCard";
 import { TProject } from "../ProjectDashboard";
 import { useRouter } from "next/navigation";
+import { deleteProject } from "./actions";
 
 interface ProjectListProps {
   projects: TProject[];
@@ -12,6 +13,10 @@ interface ProjectListProps {
 
 function ProjectList({ projects }: ProjectListProps) {
   const router = useRouter();
+
+  const handleDelete = async (slug: string) => {
+    await deleteProject(slug);
+  };
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,6 +31,7 @@ function ProjectList({ projects }: ProjectListProps) {
               project={project}
               onEdit={() => router.push(`/projects/edit/${project.slug}`)}
               onView={() => router.push(`/projects/view/${project.slug}`)}
+              onDelete={async () => await handleDelete(project.slug)}
             />
           ))}
         </ul>

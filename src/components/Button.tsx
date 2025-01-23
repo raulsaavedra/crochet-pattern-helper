@@ -24,18 +24,18 @@ const Button = ({
   ...delegated
 }: ButtonProps) => {
   const classes = cva(
-    "rounded-xl font-semibold text-lg disabled:opacity-50 flex justify-center items-center gap-3",
+    "rounded-xl font-semibold disabled:opacity-50 flex justify-center items-center transition-colors duration-300",
     {
       variants: {
         variant: {
-          filled: "bg-primary text-white",
-          outlined: "border-2 border-primary",
-          ghost: "bg-transparent text-white",
+          filled: "bg-primary text-white hover:bg-primary/80",
+          outlined: "border-2 border-primary text-primary hover:bg-primary/10",
+          ghost: "bg-transparent text-white hover:text-primary",
         },
         size: {
-          small: "p-2 px-6",
-          medium: "p-3 px-6",
-          large: "p-4 px-8",
+          small: "p-2 px-4 gap-2.5",
+          medium: "p-3 px-6 text-lg gap-3",
+          large: "p-4 px-8 text-lg gap-3",
         },
       },
       compoundVariants: [
