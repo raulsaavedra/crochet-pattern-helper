@@ -16,10 +16,10 @@ function ProjectSingle({ project }: ProjectSingleProps) {
           <span>Back to projects</span>
         </Button>
       </div>
-      <div className="border border-primary-light px-8 py-8 rounded-lg">
+      <div className="border border-primary-light px-6 lg:px-8 py-8 rounded-lg">
         <div className="flex flex-col gap-4 mb-6">
-          <h1 className="text-2xl font-bold">{project.name}</h1>
-          <p className="text-lg">{project.description}</p>
+          <h1 className="text-2xl md:text-3xl font-bold">{project.name}</h1>
+          <p className="text-base md:text-lg">{project.description}</p>
         </div>
         <StitchCounter project={project} />
       </div>

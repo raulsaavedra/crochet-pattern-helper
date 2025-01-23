@@ -47,13 +47,13 @@ function StitchCounter({ project }: { project: TProject }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <p className="flex items-center gap-4 text-2xl font-bold">
-          <Volleyball className="text-primary-light" size={24} /> Row:{" "}
-          {currentRow} / {totalRows}
+        <p className="flex items-center gap-4 text-xl md:text-2xl font-bold">
+          <Volleyball className="text-primary-light w-5 h-5 md:w-6 md:h-6" />{" "}
+          Row: {currentRow} / {totalRows}
         </p>
-        <p className="flex items-center gap-4 text-2xl font-bold">
-          <Repeat className="text-primary-light" size={24} /> Repeat:{" "}
-          {currentRepeat} / {totalRepeats}
+        <p className="flex items-center gap-4 text-xl md:text-2xl font-bold">
+          <Repeat className="text-primary-light w-5 h-5 md:w-6 md:h-6" />{" "}
+          Repeat: {currentRepeat} / {totalRepeats}
         </p>
       </div>
       <div className="flex justify-start">

@@ -30,11 +30,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-neutral-950`}
       >
-        <div className="bg-neutral-950 text-neutral-50 min-h-screen">
+        <div className="text-neutral-50 min-h-screen">
           {authData?.user && <Signout />}
-          <div className="max-w-lg mx-auto pt-10">{children}</div>
+          <div className="max-w-lg px-4 mx-auto pt-10">{children}</div>
         </div>
       </body>
     </html>

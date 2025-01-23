@@ -34,8 +34,8 @@ const Button = ({
         },
         size: {
           small: "p-2 px-4 gap-2.5",
-          medium: "p-3 px-6 text-lg gap-3",
-          large: "p-4 px-8 text-lg gap-3",
+          medium: "p-3 md:px-6 text-base md:text-lg gap-3",
+          large: "p-4  md:px-8 text-base md:text-lg gap-3",
         },
       },
       compoundVariants: [

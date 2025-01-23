@@ -59,7 +59,7 @@ function ProjectCard({
   return (
     <div
       key={project.slug}
-      className="p-6 px-8 border border-primary-light rounded-lg"
+      className="py-6 px-6 md:px-8 border border-primary-light rounded-lg"
     >
       <h2 className="text-lg font-semibold">{project.name}</h2>
       {project.description && (
@@ -70,25 +70,27 @@ function ProjectCard({
           <Eye size={20} />
           <span>View</span>
         </Button>
-        <Button size="small" variant="ghost" onClick={onEdit}>
-          <Pencil size={20} />
-          <span>Edit</span>
-        </Button>
-        <div className="flex-1 flex justify-end items-center">
-          <Button
-            size="small"
-            variant="ghost"
-            onClick={handleOnDelete}
-            className="flex items-center gap-2"
-          >
-            <Trash
-              className="text-primary-light relative bottom-[1px]"
-              size={20}
-            />
-            <span className="text-primary-light">
-              {deleteStatus === "confirm" ? "Confirm?" : "Delete"}
-            </span>
+        <div className="flex flex-1 gap-8">
+          <Button size="small" variant="ghost" onClick={onEdit}>
+            <Pencil size={20} />
+            <span>Edit</span>
           </Button>
+          <div className="flex-1 flex justify-end items-center">
+            <Button
+              size="small"
+              variant="ghost"
+              onClick={handleOnDelete}
+              className="flex items-center gap-2"
+            >
+              <Trash
+                className="text-primary-light relative bottom-[1px]"
+                size={20}
+              />
+              <span className="text-primary-light">
+                {deleteStatus === "confirm" ? "Confirm?" : "Delete"}
+              </span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
