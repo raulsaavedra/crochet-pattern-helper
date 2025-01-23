@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 type Params = Promise<{ slug: string }>;
 
-async function Project(params: Params) {
+async function Project({ params }: { params: Params }) {
   const { slug } = await params;
   const supabase = await createClient();
 

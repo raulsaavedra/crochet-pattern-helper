@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 
 type Params = Promise<{ slug: string }>;
 
-export default async function EditProject(params: Params) {
+export default async function EditProject({ params }: { params: Params }) {
   const supabase = await createClient();
 
   const { data: authData, error: authError } = await supabase.auth.getUser();
