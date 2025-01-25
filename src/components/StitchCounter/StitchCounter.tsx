@@ -21,7 +21,7 @@ function StitchCounter() {
           Repeat: {currentRepeat} / {totalRepeats}
         </p>
       </div>
-      <div className="flex justify-start gap-4">
+      <div className="flex justify-start gap-4 md:flex-row flex-col">
         <Button
           className="max-w-[200px] w-full mt-2"
           disabled={currentRepeat === 0 && currentRow === 0}
