@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
-export async function increaseCount(
+export async function changeCount(
   slug: string,
   currentRow: number,
   currentRepeat: number

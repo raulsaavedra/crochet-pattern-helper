@@ -11,6 +11,7 @@ interface ButtonProps extends ComponentProps<"button"> {
   variant?: "filled" | "outlined" | "ghost";
   as?: React.ElementType;
   href?: string;
+  disabled?: boolean;
 }
 
 const Button = ({
@@ -21,10 +22,11 @@ const Button = ({
   variant,
   as,
   href,
+  disabled,
   ...delegated
 }: ButtonProps) => {
   const classes = cva(
-    "rounded-xl font-semibold disabled:opacity-50 flex justify-center items-center transition-colors duration-300",
+    "rounded-xl font-semibold flex justify-center items-center transition-all duration-300",
     {
       variants: {
         variant: {
@@ -35,14 +37,17 @@ const Button = ({
         size: {
           small: "p-2 px-4 gap-2.5",
           medium: "p-3 md:px-6 text-base md:text-lg gap-3",
-          large: "p-4  md:px-8 text-base md:text-lg gap-3",
+          large: "p-4 md:px-8 text-base md:text-lg gap-3",
+        },
+        disabled: {
+          true: "pointer-events-none cursor-not-allowed opacity-50",
         },
       },
       compoundVariants: [
         {
           variant: "ghost",
           size: ["small", "medium", "large"],
-          className: "px-0 py-0",
+          className: "px-0 py-0 md:px-0 md:py-0",
         },
       ],
       defaultVariants: {
@@ -66,7 +71,7 @@ const Button = ({
 
   return (
     <Tag
-      className={twMerge(classes({ variant, size, className }))}
+      className={twMerge(classes({ variant, size, className, disabled }))}
       onClick={onClick}
       href={href}
       {...delegated}

@@ -1,48 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Button from "../Button";
-import { TProject } from "../ProjectDashboard/ProjectDashboard";
-import { Repeat, Shell, Volleyball } from "lucide-react";
-import { increaseCount } from "@/app/actions/projects";
-import { useDebouncedCallback } from "use-debounce";
+import { Repeat, Shell, Volleyball, RotateCcw } from "lucide-react";
+import { useStitch } from "./StitchContext";
 
-function StitchCounter({ project }: { project: TProject }) {
-  const initialRow = project.stitches.currentRow;
-  const initialRepeat = project.stitches.currentRepeat;
-
-  const [currentRow, setCurrentRow] = useState(initialRow);
-  const [currentRepeat, setCurrentRepeat] = useState(initialRepeat);
-
-  const totalRows = project.stitches.totalRows;
-  const totalRepeats = project.stitches.totalRepeats;
-
-  const handleRowChange = async () => {
-    let nextRow: number;
-    let nextRepeat: number;
-
-    if (currentRow === totalRows) {
-      if (currentRepeat === totalRepeats) {
-        return;
-      }
-      nextRow = 0;
-      nextRepeat = currentRepeat + 1;
-    } else {
-      nextRow = currentRow + 1;
-      nextRepeat = currentRepeat;
-    }
-
-    setCurrentRow(nextRow);
-    setCurrentRepeat(nextRepeat);
-    handleRowSave(nextRow, nextRepeat);
-  };
-
-  const handleRowSave = useDebouncedCallback(
-    async (row: number, repeat: number) => {
-      await increaseCount(project.slug, row, repeat);
-    },
-    1000
-  );
+function StitchCounter() {
+  const { currentRow, currentRepeat, totalRows, totalRepeats, handleRow } =
+    useStitch();
 
   return (
     <div className="flex flex-col gap-6">
@@ -56,11 +21,21 @@ function StitchCounter({ project }: { project: TProject }) {
           Repeat: {currentRepeat} / {totalRepeats}
         </p>
       </div>
-      <div className="flex justify-start">
+      <div className="flex justify-start gap-4">
+        <Button
+          className="max-w-[200px] w-full mt-2"
+          disabled={currentRepeat === 0 && currentRow === 0}
+          onClick={() => handleRow("decrease")}
+          size="small"
+        >
+          <RotateCcw size={24} />
+          <span>Previous Row</span>
+        </Button>
         <Button
           className="max-w-[200px] w-full mt-2"
           disabled={currentRepeat === totalRepeats && currentRow === totalRows}
-          onClick={handleRowChange}
+          onClick={() => handleRow("increase")}
+          size="small"
         >
           <Shell size={24} />
           <span>Next Row</span>

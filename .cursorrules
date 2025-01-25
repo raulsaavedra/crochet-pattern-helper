@@ -1,0 +1,36 @@
+# Next.js
+
+All Next.js pages are in the `src/app` folder.
+
+# Actions
+
+All API actions are in the `src/app/actions` folder.
+
+# Components
+
+All components are in the `src/components` folder.
+
+# Tables
+
+## Projects Table
+
+| Column      | Type                    | Description |
+| ----------- | ----------------------- | ----------- |
+| slug        | character varying       | -           |
+| name        | character varying       | -           |
+| description | text                    | -           |
+| created_at  | timestamp with timezone | -           |
+| updated_at  | timestamp with timezone | -           |
+| user_id     | uuid                    | -           |
+
+## Stitches Table
+
+| Column         | Type                    | Description |
+| -------------- | ----------------------- | ----------- |
+| project_slug   | character varying       | -           |
+| total_rows     | integer                 | -           |
+| total_repeats  | integer                 | -           |
+| current_row    | integer                 | -           |
+| current_repeat | integer                 | -           |
+| created_at     | timestamp with timezone | -           |
+| updated_at     | timestamp with timezone | -           |

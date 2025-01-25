@@ -1,7 +1,7 @@
-import Button from "@/components/Button";
 import { TProject } from "@/components/ProjectDashboard/ProjectDashboard";
 import StitchCounter from "@/components/StitchCounter/StitchCounter";
-import { ArrowLeft } from "lucide-react";
+import ProjectLayout from "./ProjectLayout";
+import { StitchProvider } from "../StitchCounter/StitchContext";
 
 interface ProjectSingleProps {
   project: TProject;
@@ -9,21 +9,11 @@ interface ProjectSingleProps {
 
 function ProjectSingle({ project }: ProjectSingleProps) {
   return (
-    <div>
-      <div className="mb-10">
-        <Button className="max-w-fit" variant="ghost" as="link" href={`/`}>
-          <ArrowLeft size={32} />
-          <span>Back to projects</span>
-        </Button>
-      </div>
-      <div className="border border-primary-light px-6 lg:px-8 py-8 rounded-lg">
-        <div className="flex flex-col gap-4 mb-6">
-          <h1 className="text-2xl md:text-3xl font-bold">{project.name}</h1>
-          <p className="text-base md:text-lg">{project.description}</p>
-        </div>
-        <StitchCounter project={project} />
-      </div>
-    </div>
+    <StitchProvider project={project}>
+      <ProjectLayout project={project}>
+        <StitchCounter />
+      </ProjectLayout>
+    </StitchProvider>
   );
 }
 
