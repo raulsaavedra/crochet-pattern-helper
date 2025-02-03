@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Signout from "@/components/Signout/Signout";
 import { createClient } from "@/lib/supabase/server";
+import { DEFAULT_METADATA } from "@/lib/metadata";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,15 +14,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const DEFAULT_METADATA: Metadata = {
-  title: "Crochet Pattern Helper",
-  description: "A tool to help you with crochet patterns",
-  robots: {
-    index: false,
-    follow: false,
-  },
-};
 
 export const metadata: Metadata = DEFAULT_METADATA;
 

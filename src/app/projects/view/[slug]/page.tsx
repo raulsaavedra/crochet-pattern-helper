@@ -1,5 +1,5 @@
-import { DEFAULT_METADATA } from "@/app/layout";
 import ProjectSingle from "@/components/ProjectSingle/ProjectSingle";
+import { DEFAULT_METADATA } from "@/lib/metadata";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { cache } from "react";
