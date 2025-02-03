@@ -15,6 +15,8 @@ export async function generateMetadata({ params }: { params: Params }) {
   return {
     title: project?.title,
     description: `View ${project?.title}`,
+    index: false,
+    follow: false,
   };
 }
 
