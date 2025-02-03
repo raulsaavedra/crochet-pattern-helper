@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
+export const DEFAULT_METADATA: Metadata = {
   title: "Crochet Pattern Helper",
   description: "A tool to help you with crochet patterns",
   robots: {
@@ -22,6 +22,8 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
+
+export const metadata: Metadata = DEFAULT_METADATA;
 
 export default async function RootLayout({
   children,
