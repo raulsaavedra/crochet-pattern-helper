@@ -14,11 +14,35 @@ interface ProjectFormProps {
 
 function ProjectForm({ project }: ProjectFormProps) {
   const router = useRouter();
+  const [error, setError] = React.useState<string | null>(null);
+
+  const handleSubmit = async (formData: FormData) => {
+    const totalRows = Number(formData.get("stitches-total-rows"));
+    const totalRepeats = Number(formData.get("stitches-total-repeats"));
+    const currentRow = Number(formData.get("stitches-current-row")) || 0;
+    const currentRepeat = Number(formData.get("stitches-current-repeat")) || 0;
+
+    if (totalRows < currentRow) {
+      setError("Total rows cannot be less than current row");
+      return;
+    }
+
+    if (totalRepeats < currentRepeat) {
+      setError("Total repeats cannot be less than current repeat");
+      return;
+    }
+
+    setError(null);
+    await createOrUpdateProject(formData);
+  };
 
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Create Project</h1>
-      <form className="grid grid-cols-2 gap-4" action={createOrUpdateProject}>
+      <form className="grid grid-cols-2 gap-4" action={handleSubmit}>
+        {error && (
+          <div className="col-span-2 text-red-500 text-sm">{error}</div>
+        )}
         <div className="col-span-2">
           <p className="text-lg font-semibold flex items-center gap-2 mt-2">
             <FileText size={24} className="text-primary-light" />
