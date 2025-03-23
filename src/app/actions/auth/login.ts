@@ -2,7 +2,6 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { ActionState } from "@/types/form";
 
 export type LoginData = {
   email: string;

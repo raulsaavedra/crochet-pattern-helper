@@ -2,8 +2,6 @@
 
 import { forgotPassword } from "@/app/actions/auth/forgot-password";
 import Button from "@/components/Button";
-import Link from "next/link";
-import { ActionState } from "@/types/form";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/Form";
 
