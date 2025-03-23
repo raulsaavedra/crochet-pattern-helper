@@ -9,16 +9,27 @@ const generateSlug = (name: string) => {
   return `${name.trim().replace(/\s+/g, "-")}-${randomString}`.toLowerCase();
 };
 
-export async function createOrUpdateProject(formData: FormData) {
+export interface ProjectData {
+  name: string;
+  slug?: string;
+  description?: string;
+  stitches: {
+    totalRows: string;
+    totalRepeats: string;
+    currentRow: string;
+    currentRepeat: string;
+  };
+}
+
+export async function createOrUpdateProject(data: ProjectData) {
+  const { name, description, stitches } = data;
+  const { totalRows, totalRepeats, currentRow, currentRepeat } = stitches;
   const supabase = await createClient();
 
-  const name = formData.get("name") as string;
-  const slug = (formData.get("slug") as string) || generateSlug(name);
-  const totalRows = formData.get("stitches-total-rows") as string;
-  const totalRepeats = formData.get("stitches-total-repeats") as string;
-  const currentRow = formData.get("stitches-current-row") as string;
-  const currentRepeat = formData.get("stitches-current-repeat") as string;
-  const description = formData.get("description") as string;
+  let slug = data.slug;
+  if (!slug) {
+    slug = generateSlug(name);
+  }
 
   const { data: authData } = await supabase.auth.getUser();
 

@@ -1,74 +1,101 @@
 "use client";
 
 import { FormField, Input } from "@/components/Form";
-import { login, signup } from "../actions/auth";
 import Button from "@/components/Button";
-import { useActionState } from "react";
-import { ActionState } from "@/types/form";
 
-const initialState: ActionState = {
+import { useForm } from "react-hook-form";
+import { login, signup } from "../actions/auth";
+import { LoginData } from "../actions/auth/login";
+import { useState } from "react";
+
+const initialState = {
   status: "idle",
-  message: null,
+  message: "",
 };
 
-const statusStyles = {
-  error: "text-red-500",
-  success: "text-green-500",
-  idle: "text-gray-500",
-} as const;
-
 export default function LoginPage() {
-  const [loginActionState, loginAction] = useActionState(login, initialState);
-  const [signupActionState, signupAction] = useActionState(
-    signup,
-    initialState
-  );
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginData>();
+
+  const [state, setState] = useState(initialState);
+
+  const handleLogin = async (data: LoginData) => {
+    const { email, password } = data;
+
+    const response = await login({ email, password });
+
+    if (response.status === "success") {
+      setState({ status: "success", message: response.message });
+    } else {
+      setState({ status: "error", message: response.message });
+    }
+  };
+
+  const handleSignup = async (data: LoginData) => {
+    const { email, password } = data;
+    const response = await signup({ email, password });
+    console.log(response);
+
+    if (response.status === "success") {
+      setState({ status: "success", message: response.message });
+    } else {
+      setState({ status: "error", message: response.message });
+    }
+  };
 
   const getCurrentStatus = () => {
-    if (loginActionState.status !== "idle") {
-      return loginActionState.status;
-    }
-    if (signupActionState.status !== "idle") {
-      return signupActionState.status;
+    if (state.status !== "idle") {
+      return state.status;
     }
     return "idle";
   };
 
   const getCurrentMessage = () => {
-    if (loginActionState.message) {
-      return loginActionState.message;
-    }
-    if (signupActionState.message) {
-      return signupActionState.message;
+    if (state.message) {
+      return state.message;
     }
   };
 
   return (
-    <form className="flex flex-col gap-8">
+    <form className="flex flex-col gap-8" onSubmit={handleSubmit(handleLogin)}>
       <div className="flex flex-col gap-4">
         <FormField>
           <label htmlFor="email">Email:</label>
-          <Input id="email" name="email" type="email" required />
+          <Input
+            id="email"
+            type="text"
+            {...register("email", { required: "Email is required" })}
+          />
+          {errors.email && (
+            <p className="text-red-500 text-sm">{errors.email.message}</p>
+          )}
         </FormField>
         <FormField>
           <label htmlFor="password">Password:</label>
-          <Input id="password" name="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            {...register("password", { required: "Password is required" })}
+          />
+          {errors.password && (
+            <p className="text-red-500 text-sm">{errors.password.message}</p>
+          )}
         </FormField>
       </div>
-      {getCurrentMessage() && (
-        <div
-          className={`text-sm font-semibold ${
-            statusStyles[getCurrentStatus()]
-          }`}
-        >
-          {getCurrentMessage()}
-        </div>
+      {getCurrentStatus() === "success" && (
+        <p className="text-green-500 text-sm">{getCurrentMessage()}</p>
+      )}
+      {getCurrentStatus() === "error" && (
+        <p className="text-red-500 text-sm">{getCurrentMessage()}</p>
       )}
       <div className="flex flex-col gap-4">
-        <Button variant="filled" formAction={loginAction}>
+        <Button variant="filled" type="submit">
           Log in
         </Button>
-        <Button variant="ghost" formAction={signupAction}>
+        <Button variant="ghost" onClick={handleSubmit(handleSignup)}>
           Sign up
         </Button>
       </div>

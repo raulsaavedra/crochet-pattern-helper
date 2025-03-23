@@ -4,20 +4,26 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { ActionState } from "@/types/form";
 
-export async function login(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
+export type LoginData = {
+  email: string;
+  password: string;
+};
+
+type LoginResponse = {
+  status: "success" | "error";
+  message: string;
+};
+
+export async function login({
+  email,
+  password,
+}: LoginData): Promise<LoginResponse> {
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
-
-  const { error } = await supabase.auth.signInWithPassword(data);
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
   if (error) {
     return {

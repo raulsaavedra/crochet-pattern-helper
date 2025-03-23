@@ -7,6 +7,8 @@ import { FileText, Volleyball } from "lucide-react";
 import { TProject } from "../ProjectDashboard";
 import { useRouter } from "next/navigation";
 import { createOrUpdateProject } from "@/app/actions/projects";
+import { useForm } from "react-hook-form";
+import { ProjectData } from "@/app/actions/projects/create-update";
 
 interface ProjectFormProps {
   project?: TProject | null;
@@ -14,35 +16,46 @@ interface ProjectFormProps {
 
 function ProjectForm({ project }: ProjectFormProps) {
   const router = useRouter();
-  const [error, setError] = React.useState<string | null>(null);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+    clearErrors,
+  } = useForm<ProjectData>();
 
-  const handleSubmit = async (formData: FormData) => {
-    const totalRows = Number(formData.get("stitches-total-rows"));
-    const totalRepeats = Number(formData.get("stitches-total-repeats"));
-    const currentRow = Number(formData.get("stitches-current-row")) || 0;
-    const currentRepeat = Number(formData.get("stitches-current-repeat")) || 0;
+  const onSubmit = async (data: ProjectData) => {
+    const { totalRows, totalRepeats, currentRow, currentRepeat } =
+      data.stitches;
 
-    if (totalRows < currentRow) {
-      setError("Total rows cannot be less than current row");
+    clearErrors();
+
+    if (Number(totalRows) < Number(currentRow)) {
+      setError("stitches.totalRows", {
+        message: "Total rows cannot be less than current row",
+      });
       return;
     }
 
-    if (totalRepeats < currentRepeat) {
-      setError("Total repeats cannot be less than current repeat");
+    if (Number(totalRepeats) < Number(currentRepeat)) {
+      setError("stitches.totalRepeats", {
+        message: "Total repeats cannot be less than current repeat",
+      });
       return;
     }
 
-    setError(null);
-    await createOrUpdateProject(formData);
+    await createOrUpdateProject(data);
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-2xl font-bold">Create Project</h1>
-      <form className="grid grid-cols-2 gap-4" action={handleSubmit}>
-        {error && (
-          <div className="col-span-2 text-red-500 text-sm">{error}</div>
-        )}
+      <h1 className="text-2xl font-bold">
+        {project ? "Edit" : "Create"} Project
+      </h1>
+      <form
+        className="grid grid-cols-2 gap-4"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <div className="col-span-2">
           <p className="text-lg font-semibold flex items-center gap-2 mt-2">
             <FileText size={24} className="text-primary-light" />
@@ -54,19 +67,19 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="text"
             id="name"
-            name="name"
-            required
             placeholder="Name of the project"
             defaultValue={project?.name}
+            {...register("name", { required: "Name is required" })}
+            error={errors.name?.message}
           />
         </FormField>
         <Input
           type="text"
           id="slug"
-          name="slug"
           minLength={3}
           placeholder="Slug for the URL, must be unique"
           defaultValue={project?.slug}
+          {...register("slug")}
           hidden
         />
         <FormField full>
@@ -74,9 +87,9 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="text"
             id="description"
-            name="description"
             placeholder="Description of the project"
             defaultValue={project?.description}
+            {...register("description")}
           />
         </FormField>
         <div className="col-span-2 mt-4">
@@ -90,9 +103,11 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="number"
             id="stitches-total-rows"
-            name="stitches-total-rows"
-            required
             defaultValue={project?.stitches.totalRows}
+            {...register("stitches.totalRows", {
+              required: "Total rows is required",
+            })}
+            error={errors.stitches?.totalRows?.message}
           />
         </FormField>
         <FormField>
@@ -100,9 +115,11 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="number"
             id="stitches-total-repeats"
-            name="stitches-total-repeats"
-            required
             defaultValue={project?.stitches.totalRepeats}
+            {...register("stitches.totalRepeats", {
+              required: "Total repeats is required",
+            })}
+            error={errors.stitches?.totalRepeats?.message}
           />
         </FormField>
         <FormField>
@@ -110,8 +127,11 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="number"
             id="stitches-current-row"
-            name="stitches-current-row"
             defaultValue={project?.stitches.currentRow || 0}
+            {...register("stitches.currentRow", {
+              required: "Current row is required",
+            })}
+            error={errors.stitches?.currentRow?.message}
           />
         </FormField>
         <FormField>
@@ -119,8 +139,11 @@ function ProjectForm({ project }: ProjectFormProps) {
           <Input
             type="number"
             id="stitches-current-repeat"
-            name="stitches-current-repeat"
             defaultValue={project?.stitches.currentRepeat || 0}
+            {...register("stitches.currentRepeat", {
+              required: "Current repeat is required",
+            })}
+            error={errors.stitches?.currentRepeat?.message}
           />
         </FormField>
         <div className="col-span-2 flex flex-col gap-6">

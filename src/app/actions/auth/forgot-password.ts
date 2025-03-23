@@ -1,13 +1,13 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { ActionState } from "@/types/form";
 
-export async function forgotPassword(
-  prevState: ActionState,
-  formData: FormData
-): Promise<ActionState> {
-  const email = formData.get("email") as string;
+type ForgotPasswordData = {
+  email: string;
+};
+
+export async function forgotPassword(data: ForgotPasswordData) {
+  const { email } = data;
 
   if (!email) {
     return {
@@ -18,7 +18,7 @@ export async function forgotPassword(
 
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
+  const { error } = await supabase.auth.resetPasswordForEmail(data.email);
 
   if (error) {
     return {
