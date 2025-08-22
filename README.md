@@ -3,10 +3,10 @@
 Crochet Pattern Helper lets you create crochet projects, track rows and repeats with an autosaving counter, and pick up exactly where you left off—on any device.
 
 Features:
-- Simple project setup: name, slug, and optional notes.
-- Smart stitch counter: rows and repeats with instant autosave.
-- Private by default: secure sign‑in and RLS‑protected data.
-- Fast, distraction‑free UI tuned for phones and tablets.
+- **Simple project setup**: name, slug, and optional notes.
+- **Smart stitch counter**: rows and repeats with instant autosave.
+- **Private by default**: secure sign‑in and RLS‑protected data thanks to Supabase.
+- **Responsive, distraction‑free UI tuned for phones and tablets**: So you can track stitches on the go.
 
 This repository uses:
 - Supabase authentication and Postgres with RLS
