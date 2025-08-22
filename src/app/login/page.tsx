@@ -37,7 +37,6 @@ export default function LoginPage() {
   const handleSignup = async (data: LoginData) => {
     const { email, password } = data;
     const response = await signup({ email, password });
-    console.log(response);
 
     if (response.status === "success") {
       setState({ status: "success", message: response.message });
